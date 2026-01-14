@@ -1,0 +1,5 @@
+zeroentropy
+python-dotenv
+ollama
+fastapi
+uvicorn
