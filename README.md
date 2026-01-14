@@ -69,9 +69,9 @@ python 01_indexing.py
 
 ### 3. Run the Demos
 - `python 01_indexing.py`: Index sample documents.
-- `python 05_rag_ollama.py`: Run a full RAG loop in your terminal.
 > 1. **Note:** Ensure Ollama is running (`ollama serve`) and the model is pulled (`ollama pull tinyllama`).
 > 2. Run `export OLLAMA_HOST=http://localhost:11434` in your terminal.
+- `python 05_rag_ollama.py`: Run a full RAG loop in your terminal.
 - `python app.py`: **Run the full Web UI comparison tool** (accessible at `http://localhost:8000`).
 
 ---
