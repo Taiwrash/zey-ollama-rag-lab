@@ -1,5 +1,7 @@
 # 🚀 ZeroEntropy Interactive RAG Demo
 
+[![DevSecOps Compliant CI](https://github.com/Taiwrash/zey-ollama-rag-lab/actions/workflows/ci.yaml/badge.svg)](https://github.com/Taiwrash/zey-ollama-rag-lab/actions/workflows/ci.yaml)
+
 This demo showcases a premium **RAG (Retrieval-Augmented Generation)** experience, comparing a base LLM with a ZeroEntropy-enhanced model. It uses **ZeroEntropy** for world-class retrieval and **Ollama** for private, local generation.
 
 ---
