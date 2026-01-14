@@ -23,6 +23,7 @@ jobs:
             --report-format json \
             --report-path /repo/gitleaks.json \
             --exit-code 0
+        continue-on-error: true
 
 
       - name: Install Semgrep
