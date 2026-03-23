@@ -85,7 +85,9 @@
             transition: background 0.2s;
         }
 
-        .lf-badge svg { flex-shrink: 0; }
+        .lf-badge svg {
+            flex-shrink: 0;
+        }
 
         /* ── Trace pill ──────────────────────────────────────────── */
         #tracePill {
@@ -143,8 +145,15 @@
             box-shadow: 0 4px 12px var(--primary-glow);
         }
 
-        button.primary-btn:hover { transform: translateY(-2px); opacity: 0.9; }
-        button.primary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        button.primary-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        button.primary-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         /* ── Comparison grid ─────────────────────────────────────── */
         .comparison-grid {
@@ -182,8 +191,13 @@
             font-size: 0.9rem;
         }
 
-        .tag-base { color: var(--text-muted); }
-        .tag-rag  { color: var(--accent); }
+        .tag-base {
+            color: var(--text-muted);
+        }
+
+        .tag-rag {
+            color: var(--accent);
+        }
 
         .response-text {
             line-height: 1.7;
@@ -200,7 +214,7 @@
             gap: 0.6rem;
             margin-top: auto;
             padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.07);
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .feedback-label {
@@ -210,8 +224,8 @@
         }
 
         .fb-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             color: var(--text-muted);
             border-radius: 0.6rem;
             padding: 0.35rem 0.9rem;
@@ -221,10 +235,28 @@
             line-height: 1;
         }
 
-        .fb-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.15); }
-        .fb-btn.voted-up   { background: rgba(16,185,129,0.2); border-color: var(--accent); color: var(--accent); }
-        .fb-btn.voted-down { background: rgba(244,63,94,0.2);  border-color: var(--danger);  color: var(--danger); }
-        .fb-btn:disabled   { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .fb-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: scale(1.15);
+        }
+
+        .fb-btn.voted-up {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fb-btn.voted-down {
+            background: rgba(244, 63, 94, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .fb-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         /* ── Loader ──────────────────────────────────────────────── */
         .loader-wrapper {
@@ -247,7 +279,10 @@
         .loader::after {
             content: '';
             position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
             border: 2px solid transparent;
             border-bottom: 2px solid var(--accent);
             border-radius: 50%;
@@ -256,8 +291,13 @@
         }
 
         @keyframes spin {
-            0%   { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .loading-text {
@@ -284,12 +324,19 @@
             pointer-events: none;
         }
 
-        #toast.show { transform: translateX(-50%) translateY(0); }
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
 
         /* ── Responsive ──────────────────────────────────────────── */
         @media (max-width: 768px) {
-            .comparison-grid { grid-template-columns: 1fr; }
-            .input-box { flex-direction: column; }
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-box {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -301,7 +348,8 @@
             <p class="subtitle">Comparing Base LLM with Context-Aware Retrieval</p>
             <div class="lf-badge">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 8v4l3 3" />
                 </svg>
                 Traced with Langfuse
             </div>
@@ -310,14 +358,14 @@
         <!-- Trace ID pill (shown after a query) -->
         <div id="tracePill">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
             </svg>
             <span id="traceIdText">trace: —</span>
         </div>
 
         <div class="input-box">
-            <input type="text" id="queryInput" placeholder="Ask anything about the indexed documents..." />
+            <input type="text" id="queryInput" placeholder="Ask anything about Kubernetes..." />
             <button class="primary-btn" id="sendBtn" onclick="handleAsk()">Query System</button>
         </div>
 
@@ -339,8 +387,10 @@
                 <div class="response-text" id="baseResponse">Waiting for query...</div>
                 <div class="feedback-row" id="baseFeedbackRow">
                     <span class="feedback-label">Was this helpful?</span>
-                    <button class="fb-btn" id="baseThumbUp"   onclick="submitFeedback('base',  1)" title="👍 Good answer">👍</button>
-                    <button class="fb-btn" id="baseThumbDown" onclick="submitFeedback('base', -1)" title="👎 Bad answer">👎</button>
+                    <button class="fb-btn" id="baseThumbUp" onclick="submitFeedback('base',  1)"
+                        title="👍 Good answer">👍</button>
+                    <button class="fb-btn" id="baseThumbDown" onclick="submitFeedback('base', -1)"
+                        title="👎 Bad answer">👎</button>
                 </div>
             </div>
 
@@ -357,8 +407,10 @@
                 <div class="response-text" id="ragResponse">Waiting for query...</div>
                 <div class="feedback-row" id="ragFeedbackRow">
                     <span class="feedback-label">Was this helpful?</span>
-                    <button class="fb-btn" id="ragThumbUp"   onclick="submitFeedback('rag',  1)" title="👍 Good answer">👍</button>
-                    <button class="fb-btn" id="ragThumbDown" onclick="submitFeedback('rag', -1)" title="👎 Bad answer">👎</button>
+                    <button class="fb-btn" id="ragThumbUp" onclick="submitFeedback('rag',  1)"
+                        title="👍 Good answer">👍</button>
+                    <button class="fb-btn" id="ragThumbDown" onclick="submitFeedback('rag', -1)"
+                        title="👎 Bad answer">👎</button>
                 </div>
             </div>
         </div>
@@ -374,11 +426,11 @@
             const query = document.getElementById('queryInput').value.trim();
             if (!query) return;
 
-            const sendBtn   = document.getElementById('sendBtn');
-            const loader    = document.getElementById('loader');
-            const grid      = document.getElementById('comparisonGrid');
-            const baseBox   = document.getElementById('baseResponse');
-            const ragBox    = document.getElementById('ragResponse');
+            const sendBtn = document.getElementById('sendBtn');
+            const loader = document.getElementById('loader');
+            const grid = document.getElementById('comparisonGrid');
+            const baseBox = document.getElementById('baseResponse');
+            const ragBox = document.getElementById('ragResponse');
             const tracePill = document.getElementById('tracePill');
 
             // Reset UI
@@ -400,7 +452,7 @@
 
                 if (response.ok) {
                     baseBox.innerText = data.base_response;
-                    ragBox.innerText  = data.rag_response;
+                    ragBox.innerText = data.rag_response;
                     grid.classList.add('visible');
 
                     // Surface trace ID
@@ -424,13 +476,13 @@
         async function submitFeedback(mode, value) {
             if (!currentTraceId) return;
 
-            const upBtn   = document.getElementById(`${mode}ThumbUp`);
+            const upBtn = document.getElementById(`${mode}ThumbUp`);
             const downBtn = document.getElementById(`${mode}ThumbDown`);
 
             // Optimistic UI
-            upBtn.disabled   = true;
+            upBtn.disabled = true;
             downBtn.disabled = true;
-            upBtn.classList.toggle('voted-up',   value === 1);
+            upBtn.classList.toggle('voted-up', value === 1);
             downBtn.classList.toggle('voted-down', value === -1);
 
             try {
@@ -447,7 +499,7 @@
 
         function resetFeedbackButtons() {
             ['base', 'rag'].forEach(mode => {
-                const up   = document.getElementById(`${mode}ThumbUp`);
+                const up = document.getElementById(`${mode}ThumbUp`);
                 const down = document.getElementById(`${mode}ThumbDown`);
                 if (up && down) {
                     up.disabled = down.disabled = false;
