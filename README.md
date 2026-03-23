@@ -2,85 +2,103 @@
 
 [![DevSecOps Compliant CI](https://github.com/Taiwrash/zey-ollama-rag-lab/actions/workflows/ci.yaml/badge.svg)](https://github.com/Taiwrash/zey-ollama-rag-lab/actions/workflows/ci.yaml)
 
-This demo showcases a premium **RAG (Retrieval-Augmented Generation)** experience, comparing a base LLM with a ZeroEntropy-enhanced model. It uses **ZeroEntropy** for world-class retrieval and **Ollama** for private, local generation.
+This demo showcases a premium **RAG (Retrieval-Augmented Generation)** experience, comparing a base LLM with a ZeroEntropy-enhanced model. It features a modern observability stack using **Langfuse** to trace retrieval quality and collect human feedback.
 
 ---
 
-## 🛠 Prerequisites
-
-1.  **ZeroEntropy API Key**: Get one at [zeroentropy.dev](https://zeroentropy.dev).
-2.  **Ollama**: Install it from [ollama.com](https://ollama.com).
-3.  **Docker**: Ensure Docker is installed and running.
+## 🛠 Tech Stack
+- **Retrieval**: [ZeroEntropy](https://zeroentropy.dev) (Neural Reranking with `zerank-2`)
+- **Generation**: [Ollama](https://ollama.com) (Local `tinyllama`)
+- **Observability**: [Langfuse](https://langfuse.com) (Traces, Prompts, and Human Feedback)
+- **Orchestration**: FastAPI + Python 3.13
 
 ---
 
-## 🏃‍♂️ Quick Start (Docker)
+## 🏃‍♂️ Quick Start (Docker - Self-Contained)
 
-The easiest way to see this in action fast is via the pre-built Docker image.
+The easiest way to run the entire stack (including local Ollama) is via Docker.
 
 ### 1. Configure your environment
-Create a `.env` file in your local directory:
+Create a `.env` file in the root directory:
 ```env
-ZEROENTROPY_API_KEY=your_key_here
-OLLAMA_HOST=http://host.docker.internal:11434
+ZEROENTROPY_API_KEY=your_zeroentropy_key
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com
 ```
 
-### 2. Allow Ollama connections (Mac/Windows)
-To let the Docker container talk to your local Ollama:
-- **Mac**: Run `launchctl setenv OLLAMA_HOST "0.0.0.0"` and restart the Ollama app.
-- **Windows**: Set the environment variable `OLLAMA_HOST` to `0.0.0.0` in your System Settings and restart Ollama.
-
-### 3. Run the Demo
-Run the following command to pull and start the lab:
+### 2. Build and Run
 ```bash
-docker run -p 8000:8000 \
+# Build the self-contained image
+docker build -t zey-rag-lab .
+
+# Run the container
+docker run -d \
+  -p 8000:8000 \
+  -p 11434:11434 \
+  --name zey-lab \
   --env-file .env \
-  --add-host=host.docker.internal:host-gateway \
-  taiwrash/zeroentropy-demo-by-taiwrash
+  zey-rag-lab
 ```
 
-Access the UI at: **[http://localhost:8000](http://localhost:8000)**
+### 3. Access the UI
+Open **[http://localhost:8000](http://localhost:8000)** in your browser.
 
-> Infinite Loading means the environment variables are not set correctly.
+> [!NOTE]
+> On the first run, the container will automatically pull the `tinyllama` model (~650MB). This can take 30-60 seconds before the web UI becomes available.
 
 ---
 
-## 🛠 Build from Source
+## 🧠 What's Being Showcased?
 
-If you want to modify the code or see the indexing logic:
+### 1. Side-by-Side Comparison
+The UI presents two answers for every query:
+- **Base LLM**: Raw TinyLlama response with no external knowledge.
+- **ZeroEntropy RAG**: TinyLlama response augmented with high-precision context retrieved via `zerank-2`.
 
-### 1. Clone the Repo
+### 2. Full Observability with Langfuse
+Every query is traced end-to-end. You can see:
+- **Retrieval Latency**: Exactly how fast ZeroEntropy finds context.
+- **Context Quality**: The actual chunks passed to the LLM are logged as observations.
+- **Prompt Versioning**: The system prompt is managed via Langfuse, allowing updates without code redeploys.
+
+### 3. Human-in-the-Loop Feedback
+Click the 👍 or 👎 buttons in the UI to log "User Preference" scores directly into the Langfuse dashboard. This builds a dataset to prove the performance gain of your RAG system over time.
+
+---
+
+## 🛠 Local Development
+
+If you prefer to run outside of Docker:
+
+### 1. Setup Environment
 ```bash
-git clone https://github.com/taiwrash/zey-ollama-rag-lab
-cd zey-ollama-rag-lab
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### 2. Setup Lifecycle
-Before the RAG system can "know" your data, you need to index it:
+### 2. Index Your Data
 ```bash
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-# Install requirements
-pip install -r requirements.txt
-
-# Index sample documents
+# Index the sample documents into ZeroEntropy
 python 01_indexing.py
 ```
 
-### 3. Run the Demos
-- `python 01_indexing.py`: Index sample documents.
-> 1. **Note:** Ensure Ollama is running (`ollama serve`) and the model is pulled (`ollama pull tinyllama`).
-> 2. Run `export OLLAMA_HOST=http://localhost:11434` in your terminal.
-- `python 05_rag_ollama.py`: Run a full RAG loop in your terminal.
-- `python app.py`: **Run the full Web UI comparison tool** (accessible at `http://localhost:8000`).
+### 3. Start the Orchestrator
+```bash
+# Ensure local Ollama is running and tinyllama is pulled
+python app.py
+```
 
 ---
 
-## 📂 Key Capabilities Shown
-- **Neural Reranking**: Using ZeroEntropy's `zerank-2` for high-precision context.
-- **Hybrid Search**: Combining semantic relevance with metadata filters.
-- **Privacy-First**: Keeping the "brain" (LLM) local while offloading complex retrieval to ZeroEntropy.
+## 📂 Project Structure
+- `app.py`: FastAPI orchestrator with Langfuse tracing.
+- `index.html`: Premium glassmorphic UI with feedback integration.
+- `01_indexing.py`: Logic for populating the ZeroEntropy collection.
+- `entrypoint.sh`: Container startup script for Ollama + FastAPI.
+- `baseDockerfile`: Template for the specialized Python 3.13 + Ollama environment.
+
+---
 
 Produced by **Taiwrash** for ZeroEntropy.
