@@ -3,3 +3,4 @@ python-dotenv
 ollama
 fastapi
 uvicorn
+langfuse>=4.0.0
